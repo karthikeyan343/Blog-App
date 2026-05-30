@@ -1,6 +1,10 @@
 import React from 'react'
 
 const Contact = () => {
+  const handleSubmit = (event) => {
+    event.preventDefault();
+  };
+
   return (
     
     <div className="container py-3">
@@ -11,7 +15,7 @@ const Contact = () => {
 
         <div className="col-lg-6">
 
-          <form>
+          <form onSubmit={handleSubmit}>
 
             <div className="mb-3">
               <label className="form-label">Name</label>

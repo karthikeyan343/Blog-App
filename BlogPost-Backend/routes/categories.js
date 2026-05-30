@@ -1,7 +1,11 @@
 const express = require('express');
-const router= express().router;
+const mongoose = require('mongoose');
+const router = express.Router();
 const Category = require('../models/Category');
 const post = require('../models/post');
+const { requireAuth } = require('../middleware/auth');
+
+const isValidObjectId = (id) => mongoose.Types.ObjectId.isValid(id);
 
 router.get('/',async (req,res)=>{
     try {
@@ -12,20 +16,7 @@ router.get('/',async (req,res)=>{
     }
 });
 
-router.get('/:id', async(req,res)=>{
-    try {
-        let id = req.params.id;
-        const categories = await Category.findById(id);
-        if(!categories){
-           return res.status(404).json({message:"Post Not Found!"});
-        }
-        res.status(200).json(categories);
-    } catch (error) {
-        res.status(500).json({message:error.message});
-    }
-});
-
-router.post('/',async (req,res)=>{
+router.post('/', requireAuth, async (req,res)=>{
     const newCategories = new Category({
        name : req.body.name,
        slug : req.body.slug,
@@ -39,9 +30,12 @@ router.post('/',async (req,res)=>{
     }
 });
 
-router.put('/:id',async (req,res)=>{
+router.put('/:id', requireAuth, async (req,res)=>{
 try{
    const id = req.params.id;
+   if (!isValidObjectId(id)) {
+    return res.status(400).json({message:"Invalid category id"});
+   }
    const category = await Category.findById(id);
    if(!category){
     return res.status(404).json({message:"id not found"})
@@ -49,24 +43,26 @@ try{
        category.name = req.body.name || category.name;
        category.slug = req.body.slug  ||  category.slug;
        category.description = req.body.description || category.description;
-       category.updatedAt = Date.now();
 
    const updatedCategory = await category.save();
-   res.status(201).json(updatedCategory);
+   res.status(200).json(updatedCategory);
 }
 catch(error){
 res.status(400).json({error:error.message});
 }});
 
-router.delete('/:id',async(req,res)=>{
+router.delete('/:id', requireAuth, async(req,res)=>{
    try{
    const id = req.params.id;
+   if (!isValidObjectId(id)) {
+       return res.status(400).json({message:"Invalid category id"});
+   }
    const categories = await Category.findById(id);
    if(!categories){
        return res.status(404).json({message:"not found"});
    }
    await Category.findByIdAndDelete(id);
-   res.json({message:"Post Deleted Successfully"});
+   res.json({message:"Category Deleted Successfully"});
    }
    catch(error){
     res.status(500).json({message:error.message});
@@ -77,9 +73,12 @@ router.delete('/:id',async(req,res)=>{
 router.get('/category/:categoryId',async (req,res)=>{
     try{
      const CategoryId = req.params.categoryId;
-     const CategoryExists = Category.find(CategoryId);
+     if (!isValidObjectId(CategoryId)) {
+        return res.status(400).json({message:"Invalid category id"});
+     }
+     const CategoryExists = await Category.findById(CategoryId);
      if(!CategoryExists){
-        res.status(400).json({message:"Invalid Id"});
+        return res.status(404).json({message:"Category not found"});
      }
 
      const posts = await post.find({category:CategoryId}).populate('category');
@@ -89,6 +88,22 @@ router.get('/category/:categoryId',async (req,res)=>{
         res.status(500).json({message:error.message})
     }
 })
+
+router.get('/:id', async(req,res)=>{
+    try {
+        let id = req.params.id;
+        if (!isValidObjectId(id)) {
+           return res.status(400).json({message:"Invalid category id"});
+        }
+        const categories = await Category.findById(id);
+        if(!categories){
+           return res.status(404).json({message:"Category Not Found!"});
+        }
+        res.status(200).json(categories);
+    } catch (error) {
+        res.status(500).json({message:error.message});
+    }
+});
 
 
 module.exports = router;

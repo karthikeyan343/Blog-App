@@ -1,46 +1,79 @@
 import {useEffect, useState} from 'react'
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import api from '../services/api';
+
+const fallbackImage = '/blog-placeholder.svg';
+
 const PostDetail = () => {
   const [post, setPost] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const {id} = useParams();
   
-  const fetchPosts = async()=>{
-       try {
-       const response =  await axios.get(`http://localhost:5000/api/posts/${id}`);
-       setPost(response.data);
-       } catch (error) {
-        console.log("Error while fetching post" ,error);
-       }
+  useEffect(()=>{
+    let cancelled = false;
+
+    const fetchPost = async()=>{
+      try {
+        const response =  await api.get(`/posts/${id}`);
+        if (!cancelled) {
+          setPost(response.data);
+        }
+      } catch (error) {
+        if (!cancelled) {
+          setError(error.response?.data?.message || "Unable to load this post.");
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchPost();
+
+    return () => {
+      cancelled = true;
+    };
+  },[id]);
+
+  if(loading){
+    return <h1 className="container mt-4">Loading...</h1>
   }
 
-  useEffect(()=>{
-    fetchPosts();
-  },[]);
-
-  if(!post){
-    return <h1>Loading...</h1>
+  if(error){
+    return <h4 className="container mt-4 text-danger">{error}</h4>
   }
 
   const formattedDate = Intl.DateTimeFormat('en-us',{
     month : "long",
-    date:"numeric",
+    day:"numeric",
     year:"numeric"
 }).format(new Date(post.createdAt));
 
+  const handleImageError = (event) => {
+    event.currentTarget.onerror = null;
+    event.currentTarget.src = fallbackImage;
+  };
+
   return (
   
-  <div style={{height:'415px'}}>
+  <div>
     <main className="container-fluid my-4">
       <div className="row">
         <article className="col-lg-12">
           <h2 className="blog-post-title">{post.title}</h2>
 
           <p className="blog-post-meta">
-            {formattedDate} by <a href="#">{post.author}</a>
+            {formattedDate} by <span>{post.author}</span>
           </p>
 
-          <img className="mb-3 img-fluid" src={post.image} alt="img" />
+          <img
+            className="post-detail-image mb-3 img-fluid"
+            src={post.image || fallbackImage}
+            alt={post.title}
+            onError={handleImageError}
+          />
 
           <div className="blog-post-content">
             <p>{post.content}</p>

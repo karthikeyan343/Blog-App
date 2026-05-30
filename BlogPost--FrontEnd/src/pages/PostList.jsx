@@ -1,24 +1,54 @@
 import React, { useEffect, useState } from "react";
 import Post from "../components/Post";
-import axios from "axios";
 import { Link } from "react-router-dom";
+import api from "../services/api";
 
 const PostList = ({sideBar}) => {
     const [posts,setPosts] = useState([]);
     const [categories,setCategories] = useState([]);
-    const fetchPosts = async ()=>{
-    const response= await axios.get('http://localhost:5000/api/posts');
-    setPosts(response.data);
-    }
+    const [loading,setLoading] = useState(true);
+    const [error,setError] = useState("");
 
-    const fetchCategories = async()=>{
-      const response = await axios.get('http://localhost:5000/api/categories');
-      setCategories(response.data);
-    }
     useEffect(()=>{
-        fetchPosts();
-        fetchCategories();
+        let cancelled = false;
+
+        const fetchData = async () => {
+          try {
+            const [postsResponse, categoriesResponse] = await Promise.all([
+              api.get('/posts'),
+              api.get('/categories')
+            ]);
+
+            if (!cancelled) {
+              setPosts(postsResponse.data);
+              setCategories(categoriesResponse.data);
+            }
+          } catch (error) {
+            if (!cancelled) {
+              setError(error.response?.data?.message || "Unable to load blog posts.");
+            }
+          } finally {
+            if (!cancelled) {
+              setLoading(false);
+            }
+          }
+        };
+
+        fetchData();
+
+        return () => {
+          cancelled = true;
+        };
     },[])
+
+  if (loading) {
+    return <h4 className="container mt-4">Loading posts...</h4>;
+  }
+
+  if (error) {
+    return <h4 className="container mt-4 text-danger">{error}</h4>;
+  }
+
   return (
     <>
       
@@ -30,12 +60,12 @@ const PostList = ({sideBar}) => {
             {sideBar ? (            <div className="col-lg-8">
               <h1 className="mb-4">Latest Posts</h1>
                  {
-                   posts.length>0 ? posts.map((post)=> <Post post={post}/> ) : <h4>No Post Available</h4>
+                   posts.length>0 ? posts.map((post)=> <Post key={post._id} post={post}/> ) : <h4>No Post Available</h4>
                  }
             </div>) : (<div className="col-lg-12">
               <h1 className="mb-4">Latest Posts</h1>
                  {
-                   posts.length>0 ? posts.map((post)=> <Post post={post}/> ) : <h4>No Post Available</h4>
+                   posts.length>0 ? posts.map((post)=> <Post key={post._id} post={post}/> ) : <h4>No Post Available</h4>
                  }
             </div>)}
 
@@ -61,7 +91,7 @@ web technologies, and software development.
                   <h5 className="card-title">Categories</h5>
 
                   <ul className="list-group">
-                    {categories.map((category) =>{ return <li className="list-group-item">
+                    {categories.map((category) =>{ return <li key={category._id} className="list-group-item">
                       <Link to={`/posts/category/${category._id}`} className="text-black">
                        {category.name}
                       </Link>

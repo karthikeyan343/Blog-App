@@ -4,7 +4,7 @@ const About = () => {
   return (
     <>
        <h1 className='text-center mt-4'> Hi I am Karthikeyan</h1>
-      <div className="container mt-4 " style={{height:'380px'}}>
+      <div className="container my-4">
       <h1>About This Blog</h1>
 
       <p>

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">Blog post placeholder</title>
+  <desc id="desc">A clean placeholder image for blog post cards.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f3f7fb"/>
+      <stop offset="1" stop-color="#dce8f3"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1769ff"/>
+      <stop offset="1" stop-color="#1fb6ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="960" height="540" fill="url(#bg)"/>
+  <rect x="96" y="84" width="768" height="372" rx="28" fill="#ffffff" opacity="0.86"/>
+  <rect x="150" y="146" width="300" height="26" rx="13" fill="#20262c" opacity="0.9"/>
+  <rect x="150" y="204" width="548" height="18" rx="9" fill="#5c6975" opacity="0.35"/>
+  <rect x="150" y="246" width="480" height="18" rx="9" fill="#5c6975" opacity="0.26"/>
+  <rect x="150" y="288" width="380" height="18" rx="9" fill="#5c6975" opacity="0.2"/>
+  <rect x="150" y="360" width="164" height="52" rx="12" fill="url(#accent)"/>
+  <circle cx="746" cy="178" r="68" fill="#ffbf47" opacity="0.92"/>
+  <path d="M650 370 746 268l74 78 44-48v112H596l54-40Z" fill="#1769ff" opacity="0.88"/>
+</svg>

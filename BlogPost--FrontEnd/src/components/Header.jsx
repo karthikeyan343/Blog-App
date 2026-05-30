@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 const Header = () => {
   return (
-        <header>
+        <header className="site-header">
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
           <div className="container">
             <Link className="navbar-brand" to={"/"}>
@@ -41,6 +41,12 @@ const Header = () => {
                 <li className="nav-item">
                   <Link className="nav-link" to={'/contact'}>
                     Contact
+                  </Link>
+                </li>
+
+                <li className="nav-item">
+                  <Link className="nav-link" to={'/admin/posts'}>
+                    Admin
                   </Link>
                 </li>
               </ul>
