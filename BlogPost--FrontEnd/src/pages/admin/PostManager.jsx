@@ -67,6 +67,24 @@ const PostManager = () => {
 
       {error && <div className="alert alert-danger">{error}</div>}
 
+      <div className="admin-post-cards">
+        {posts.map((post) => (
+          <article className="admin-post-card" key={post._id}>
+            <h2>{post.title}</h2>
+            <p className="text-muted mb-1">{post.category?.name || 'No category'}</p>
+            <p className="mb-3">By {post.author}</p>
+            <div className="d-flex gap-2">
+              <Link className="btn btn-sm btn-outline-primary flex-fill" to={`/admin/posts/edit/${post._id}`}>
+                Edit
+              </Link>
+              <button className="btn btn-sm btn-outline-danger flex-fill" onClick={() => handleDelete(post._id)}>
+                Delete
+              </button>
+            </div>
+          </article>
+        ))}
+      </div>
+
       <div className="table-responsive admin-table">
         <table className="table table-hover align-middle mb-0">
           <thead>

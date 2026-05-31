@@ -100,6 +100,10 @@ img {
   min-width: 720px;
 }
 
+.admin-post-cards {
+  display: none;
+}
+
 .admin-form-header {
   max-width: 760px;
 }
@@ -117,5 +121,50 @@ img {
   .admin-auth-card,
   .admin-post-form {
     padding: 1rem;
+  }
+
+  .navbar-collapse {
+    padding-top: 0.75rem;
+  }
+
+  .navbar-nav .nav-link {
+    border-radius: 6px;
+    padding: 0.75rem 0.85rem;
+  }
+
+  .navbar-nav .nav-link:active,
+  .navbar-nav .nav-link:focus {
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  .admin-form-header h1 {
+    font-size: 1.75rem;
+  }
+
+  .admin-post-form {
+    width: 100%;
+  }
+
+  .admin-table {
+    display: none;
+  }
+
+  .admin-post-cards {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .admin-post-card {
+    border: 1px solid #dde3ea;
+    border-radius: 8px;
+    background: #fff;
+    padding: 1rem;
+  }
+
+  .admin-post-card h2 {
+    font-size: 1.1rem;
+    line-height: 1.35;
+    margin-bottom: 0.5rem;
+    overflow-wrap: anywhere;
   }
 }
