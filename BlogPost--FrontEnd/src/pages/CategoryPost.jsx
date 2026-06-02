@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Post from "../components/Post";
 import { useParams } from "react-router-dom";
 import api from "../services/api";
+import ServerWakeMessage from "../components/ServerWakeMessage";
 
 const CategoryPost = () => {
     const [posts,setPosts] = useState([]);
@@ -43,7 +44,7 @@ const CategoryPost = () => {
     },[id])
 
     if(loading){
-        return <h4 className="container mt-4">Loading category...</h4>;
+        return <ServerWakeMessage title="Loading category..." />;
     }
 
     if(error){

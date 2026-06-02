@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../../services/api';
 import { logout } from '../../services/auth';
+import ServerWakeMessage from '../../components/ServerWakeMessage';
 
 const PostManager = () => {
   const navigate = useNavigate();
@@ -45,7 +46,7 @@ const PostManager = () => {
   };
 
   if (loading) {
-    return <h4 className="container mt-4">Loading admin posts...</h4>;
+    return <ServerWakeMessage title="Loading admin posts..." />;
   }
 
   return (

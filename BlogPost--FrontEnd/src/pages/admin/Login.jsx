@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../../services/api';
 import { setToken } from '../../services/auth';
+import ServerWakeMessage from '../../components/ServerWakeMessage';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -72,6 +73,8 @@ const Login = () => {
           <button className="btn btn-primary w-100" disabled={loading}>
             {loading ? 'Logging in...' : 'Login'}
           </button>
+
+          {loading && <ServerWakeMessage title="Connecting to admin server..." compact />}
         </form>
       </div>
     </main>

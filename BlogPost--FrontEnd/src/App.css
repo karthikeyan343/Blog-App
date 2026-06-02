@@ -57,6 +57,21 @@ img {
   max-width: 100%;
 }
 
+.server-wake-message {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  max-width: 720px;
+  border: 1px solid #dde3ea;
+  border-radius: 8px;
+  background: #f8fafc;
+  padding: 1.25rem;
+}
+
+.admin-auth-card .server-wake-message {
+  margin-top: 1rem;
+}
+
 .post-card {
   overflow: hidden;
 }
@@ -120,6 +135,11 @@ img {
 
   .admin-auth-card,
   .admin-post-form {
+    padding: 1rem;
+  }
+
+  .server-wake-message {
+    align-items: flex-start;
     padding: 1rem;
   }
 

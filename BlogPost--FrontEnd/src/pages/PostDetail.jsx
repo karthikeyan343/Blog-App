@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react'
 import { useParams } from 'react-router-dom';
 import api from '../services/api';
+import ServerWakeMessage from '../components/ServerWakeMessage';
 
 const fallbackImage = '/blog-placeholder.svg';
 
@@ -38,7 +39,7 @@ const PostDetail = () => {
   },[id]);
 
   if(loading){
-    return <h1 className="container mt-4">Loading...</h1>
+    return <ServerWakeMessage title="Loading post..." />
   }
 
   if(error){

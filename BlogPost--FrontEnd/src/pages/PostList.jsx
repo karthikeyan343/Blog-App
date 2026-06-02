@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Post from "../components/Post";
 import { Link } from "react-router-dom";
 import api from "../services/api";
+import ServerWakeMessage from "../components/ServerWakeMessage";
 
 const PostList = ({sideBar}) => {
     const [posts,setPosts] = useState([]);
@@ -42,7 +43,7 @@ const PostList = ({sideBar}) => {
     },[])
 
   if (loading) {
-    return <h4 className="container mt-4">Loading posts...</h4>;
+    return <ServerWakeMessage title="Loading posts..." />;
   }
 
   if (error) {

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import api from '../../services/api';
+import ServerWakeMessage from '../../components/ServerWakeMessage';
 
 const PostForm = () => {
   const { id } = useParams();
@@ -92,7 +93,7 @@ const PostForm = () => {
   };
 
   if (loading) {
-    return <h4 className="container mt-4">Loading form...</h4>;
+    return <ServerWakeMessage title="Loading post form..." />;
   }
 
   return (
