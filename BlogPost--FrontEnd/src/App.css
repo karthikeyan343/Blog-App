@@ -58,9 +58,8 @@ img {
 }
 
 .server-wake-message {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+  display: grid;
+  gap: 1.25rem;
   max-width: 720px;
   border: 1px solid #dde3ea;
   border-radius: 8px;
@@ -68,8 +67,69 @@ img {
   padding: 1.25rem;
 }
 
+.server-wake-message-compact {
+  max-width: none;
+}
+
+.server-wake-status {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
 .admin-auth-card .server-wake-message {
   margin-top: 1rem;
+}
+
+.post-skeleton-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.post-skeleton {
+  display: grid;
+  gap: 0.75rem;
+  border: 1px solid #dde3ea;
+  border-radius: 8px;
+  background: #fff;
+  padding: 1rem;
+}
+
+.post-skeleton-image,
+.post-skeleton-line {
+  display: block;
+  overflow: hidden;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #e6ebf1 25%, #f4f7fa 37%, #e6ebf1 63%);
+  background-size: 400% 100%;
+  animation: skeleton-loading 1.4s ease infinite;
+}
+
+.post-skeleton-image {
+  height: 120px;
+}
+
+.post-skeleton-line {
+  height: 14px;
+}
+
+.post-skeleton-title {
+  width: 72%;
+  height: 20px;
+}
+
+.post-skeleton-short {
+  width: 48%;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0 50%;
+  }
 }
 
 .post-card {
@@ -141,6 +201,10 @@ img {
   .server-wake-message {
     align-items: flex-start;
     padding: 1rem;
+  }
+
+  .server-wake-status {
+    align-items: flex-start;
   }
 
   .navbar-collapse {
